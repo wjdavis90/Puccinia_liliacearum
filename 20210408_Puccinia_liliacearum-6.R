@@ -1,5 +1,5 @@
 #Set working directory
-setwd("C://Users//wjdavis//Documents//R_working_dir//Puccinia_lil")
+setwd("")
 
 #Load libraries
 library(tidyverse)
@@ -115,17 +115,6 @@ states_map <-map_data("state")
 
 Puccinia_liliacearum_tidy_collapse_lat_long <-drop_na(Puccinia_liliacearum_tidy_collapse_decades, decimal_latitude)
 
-
-
-
-ggplot(states_map, aes(x=long, y=lat, group=group)) +
-geom_polygon(fill="white", color="black") +
-geom_path() +
-coord_map("mercator") +
-geom_point(data=Puccinia_liliacearum_tidy_collapse_lat_long,
-		aes(x=decimal_longitude, y=decimal_latitude)) +
-labs(x=NULL, y=NULL)
-
 world <-ne_countries(scale="medium", returnclass="sf")
 
 class(world)
@@ -151,42 +140,3 @@ labs(x=NULL, y=NULL)
 pdf("Puccinia_liliacearum_distribution_plot_geom_point.pdf")
 print(Puccinia_liliacearum_distribution_plot_geom_point)
 dev.off()
-
-Puccinia_liliacearum_sites <- subset(Puccinia_liliacearum_tidy_collapse_lat_long, select=c(decimal_latitude,
-															decimal_longitude)) %>%
-					rename(latitude= decimal_latitude ) %>%
-					rename(longitude= decimal_longitude)
-
-Puccinia_liliacearum_sf <-st_as_sf(Puccinia_liliacearum_sites,
-						coords= c("latitude", "longitude"),
-						crs= 4326)
-
-Puccinia_liliacearum_distribution_plot_geom_sf <- ggplot(data=world)+
-ggtitle("Distribution of Puccinia liliacearum in the United States of America") +
-geom_sf(fill="white", color="black") +
-geom_sf(data=states, fill=NA, color="black") +
-geom_sf(data=Puccinia_liliacearum_sf,
-		size=4,
-		shape=21,
-		fill="black") +
-theme(axis.text.x=element_text(size=12, color="black")) +
-theme(axis.text.y=element_text(size=12, color="black")) +
-coord_sf(xlim=c(-91, -69), ylim=c(36, 49)) +
-labs(x=NULL, y=NULL)
-
-pdf("Puccinia_liliacearum_distribution_plot_geom_point.pdf")
-print(Puccinia_liliacearum_distribution_plot_geom_point)
-dev.off()
-
-
-
-
-
-
-
-#ggplot(data=world)+
-#geom_sf() +
-#geom_sf(data=states, fill=NA) +
-#coord_sf(xlim=c(-125, -65), ylim=c(25, 49))
-
-
