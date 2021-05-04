@@ -1,5 +1,5 @@
 #Set working directory
-setwd("C://Users//wjdavis//Documents//R_working_dir//Puccinia_lil")
+setwd("")
 
 #Load libraries
 library(tidyverse)
